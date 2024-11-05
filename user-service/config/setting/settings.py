@@ -4,8 +4,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 
-# ALLOWED_HOSTS = ("sr.horizon-logistics.co", "167.99.243.166", 'localhost', "127.0.0.1")
-
 ALLOWED_HOSTS = ("*",)
 
 AUTH_USER_MODEL = 'users.User'
@@ -21,24 +19,15 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
 STATIC_URL = "/users/back-static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "back-static")
 
 MEDIA_URL = '/users/back-media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "back-media")
 
-# CSRF_TRUSTED_ORIGINS = ["https://sr.horizon-logistics.co", "http://167.99.243.166",
-#                         "http://localhost:8003", "http://192.168.138.58:8501",
-#                         "https://sr.horizon-logistics.co/streamlit/"]
+# CSRF_TRUSTED_ORIGINS = []
 
-# CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000", "https://horizon-logistics.co"]
+# CORS_ALLOWED_ORIGINS = []
 
 CORS_ALLOW_ALL_ORIGINS = True
 

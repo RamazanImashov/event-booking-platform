@@ -44,7 +44,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 AUTH_PASSWORD_VALIDATORS = APVS
 
-LANGUAGE_CODE = "ru"
+LANGUAGE_CODE = "ru-ru"
 
 TIME_ZONE = "UTC"
 
@@ -55,16 +55,6 @@ USE_L10N = True
 USE_TZ = True
 
 PACKAGE_ROOT = os.path.abspath(os.path.dirname(__file__))
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, '../../locale'),
-)
-
-LANGUAGES = (
-    ('ru', _('Russian')),
-    ('en', _('English')),
-    ('zh-hant', _('繁體中文')),
-    ("ky", _("Кыргызча")),
-)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -81,7 +71,6 @@ CELERY_BROKER_URL = f'redis://{Redis_Host}:6379'
 CELERY_RESULT_BACKEND = f'redis://{Redis_Host}:6379'
 
 JAZZMIN_SETTINGS = JBS
-JAZZMIN_SETTINGS["show_ui_builder"] = True
 JAZZMIN_UI_TWEAKS = JAZZMIN_UI_TWEAKS
 
 REST_FRAMEWORK = RF_BS
@@ -92,11 +81,6 @@ SPECTACULAR_SETTINGS = SP_BS
 
 LOGGING = LOG_BS
 
-# CLOUDINARY_STORAGE = CLOUD_STORAGE_SETTING
-#
-# DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-
-
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -106,8 +90,3 @@ CACHES = {
         }
     }
 }
-
-
-DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50 MB
-
-FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50 MB

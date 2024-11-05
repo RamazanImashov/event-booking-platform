@@ -11,7 +11,6 @@ BASE_APPS = [
 ]
 
 LIBS_APPS = [
-    "debug_toolbar",
     'drf_spectacular',
     "rest_framework",
     "corsheaders",
@@ -19,11 +18,8 @@ LIBS_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt.token_blacklist',
     "django_filters",
-    'django_celery_beat',
-    "django_seed",
 ]
 
 APPS = [
-    "users",
 ]
 

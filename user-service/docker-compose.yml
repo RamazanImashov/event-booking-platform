@@ -1,0 +1,69 @@
+version: "3"
+services:
+  django-users:
+    build:       
+      context: .
+      dockerfile: Dockerfile.users
+    container_name: django-users
+    env_file:
+      - .env
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/usr/src/app
+      - static_volume:/usr/src/app/back-static
+      - media_volume:/usr/src/app/back-media
+    restart: always
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:8001"
+    depends_on:
+      - users-postgres
+    networks:
+      - app-network
+
+  nginx-users:
+    image: nginx
+    container_name: nginx-users
+    volumes:
+      - ./nginx/any_conf/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8081:8081"
+    depends_on:
+      - django-users
+    networks:
+      - app-network
+
+  users-postgres:
+    image: postgres:14
+    container_name: users-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME_USERS}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    ports:
+      - "5431:5431"
+    volumes:
+      - postgres_data_users:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  grpc-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.grpc_server
+    container_name: grpc-server
+    restart: always
+    command: sh -c "python grpc_server.py"
+    ports:
+      - "50051:50051"
+    networks:
+      - app-network
+
+volumes:
+  postgres_data_users:
+  static_volume:
+  media_volume:
+
+networks:
+  app-network:
+    driver: bridge

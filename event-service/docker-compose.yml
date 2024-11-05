@@ -1,0 +1,62 @@
+version: "3"
+services:
+  event-services:
+    build: 
+      context: .
+      dockerfile: Dockerfile.event
+    container_name: event-services
+    command: sh -c "alembic upgrade head && uvicorn main:app --port 8003 --host 0.0.0.0"
+    volumes:
+      - .:/app
+    ports:
+      - "8003:8003"
+    depends_on:
+      - event-postgres
+    networks:
+      - app-network
+
+  nginx-event:
+    image: nginx
+    container_name: nginx-event
+    volumes:
+      - ./nginx/any_conf/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8083:8083"
+    depends_on:
+      - event-services
+    networks:
+      - app-network
+
+  event-postgres:
+    image: postgres:14
+    container_name: event-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME_EVENT}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    ports:
+      - "5433:5433"
+    volumes:
+      - postgres_data_event:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  event-grpc-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.grpc_server
+    container_name: event-grpc-server
+    restart: always
+    command: sh -c "python src/grpc_server.py"
+    ports:
+      - "50053:50053"
+    networks:
+      - app-network
+
+volumes:
+  postgres_data_event:
+
+networks:
+  app-network:
+    driver: bridge
