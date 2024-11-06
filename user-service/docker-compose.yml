@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 services:
   django-users:
     build:       
@@ -19,6 +19,16 @@ services:
       - users-postgres
     networks:
       - app-network
+    logging:
+      driver: json-file
+      option:
+        max-size: "200k"
+        max-file: "10"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   nginx-users:
     image: nginx
@@ -41,7 +51,7 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
     ports:
-      - "5431:5431"
+      - "5431:5432"
     volumes:
       - postgres_data_users:/var/lib/postgresql/data
     networks:
