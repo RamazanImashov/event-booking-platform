@@ -1,9 +1,11 @@
 version: "3"
 services:
   gateway-services:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile.gateway
     container_name: notification-services
-    command: sh -c "uvicorn main:app --port 8000 --host 0.0.0.0"
+    command: sh -c "uvicorn src/main:app --port 8000 --host 0.0.0.0"
     volumes:
       - .:/app
     ports:

@@ -33,7 +33,7 @@ services:
     restart: always
     environment:
       POSTGRES_DB: ${DB_NAME_EVENT}
-      POSTGRES_USER: ${DB_USER}
+      POSTGRES_USER: ${DB_USER} 
       POSTGRES_PASSWORD: ${DB_PASS}
     ports:
       - "5433:5432"
@@ -45,10 +45,10 @@ services:
   event-grpc-server:
     build:
       context: .
-      dockerfile: Dockerfile.grpc_server
+      dockerfile: Dockerfile.event_grpc_server
     container_name: event-grpc-server
     restart: always
-    command: sh -c "python src/grpc_server.py"
+    command: sh -c "python src/grpcs/grpc_server.py"
     ports:
       - "50053:50053"
     networks:

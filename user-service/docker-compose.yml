@@ -57,13 +57,13 @@ services:
     networks:
       - app-network
 
-  grpc-server:
+  users-grpc-server:
     build:
       context: .
-      dockerfile: Dockerfile.grpc_server
-    container_name: grpc-server
+      dockerfile: Dockerfile.users_grpc_server
+    container_name: users-grpc-server
     restart: always
-    command: sh -c "python grpc_server.py"
+    command: sh -c "gunicorn python users_grpc_server.py"
     ports:
       - "50051:50051"
     networks:

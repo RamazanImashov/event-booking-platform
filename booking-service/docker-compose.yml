@@ -42,18 +42,6 @@ services:
     networks:
       - app-network
 
-  grpc-server:
-    build:
-      context: .
-      dockerfile: Dockerfile.grpc_server
-    container_name: grpc-server
-    restart: always
-    command: sh -c "python src/grpc_server.py"
-    ports:
-      - "50052:50052"
-    networks:
-      - app-network
-
 volumes:
   postgres_data_booking:
 

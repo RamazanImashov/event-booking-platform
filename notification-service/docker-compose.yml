@@ -1,11 +1,11 @@
 version: "3"
 services:
-  notification-services:
+  notifications-services:
     build: 
       context: .
-      dockerfile: Dockerfile.notification
+      dockerfile: Dockerfile.notifications
     container_name: notification-services
-    command: sh -c "alembic upgrade head && uvicorn main:app --port 8004 --host 0.0.0.0"
+    command: sh -c "alembic upgrade head && uvicorn src/main:app --port 8004 --host 0.0.0.0"
     volumes:
       - .:/app
     ports:
@@ -42,13 +42,13 @@ services:
     networks:
       - app-network
 
-  notification-grpc-server:
+  notifications-grpc-server:
     build:
       context: .
-      dockerfile: Dockerfile.grpc_server
-    container_name: notification-grpc-server
+      dockerfile: Dockerfile.notifications_grpc_server
+    container_name: notifications-grpc-server
     restart: always
-    command: sh -c "python src/grpc_server.py"
+    command: sh -c "gunicorn python grpc_server/notifications_service.py"
     ports:
       - "50054:50054"
     networks:
