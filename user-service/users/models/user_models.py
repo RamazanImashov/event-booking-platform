@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractUser
-from .tasks import generate_and_assign_user_id, create_user_profile
-from .choices_fields import Roles
+from ..utils.tasks import generate_and_assign_user_id, create_user_profile
+from ..utils.choices_fields import Roles
 
 # Create your models here.
 

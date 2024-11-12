@@ -2,8 +2,8 @@
 
 from celery import shared_task
 from django.contrib.auth import get_user_model
-from utils import generate_user_id
-from .profile_models import AdminProfile, OrganizerProfile, AttendeeProfile, GuestProfile
+from users.utils.utils import generate_user_id
+from ..models.profile_models import AdminProfile, OrganizerProfile, AttendeeProfile, GuestProfile
 
 User = get_user_model()
 

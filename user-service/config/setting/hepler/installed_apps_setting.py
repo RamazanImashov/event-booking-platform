@@ -21,5 +21,6 @@ LIBS_APPS = [
 ]
 
 APPS = [
+    "users",
 ]
 
