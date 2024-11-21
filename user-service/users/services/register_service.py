@@ -1,4 +1,4 @@
-from serializers.user_serializer import RegisterSerializer as rs
+from users.serializers.register_serializer import RegisterSerializer as rs
 from rest_framework.status import HTTP_201_CREATED
 
 

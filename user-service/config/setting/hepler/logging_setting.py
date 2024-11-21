@@ -49,6 +49,12 @@ BASE_SETTING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
         },
+        'file_info': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': LOG_DIR / 'django_info.log',
+            'formatter': 'verbose',
+        },
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
