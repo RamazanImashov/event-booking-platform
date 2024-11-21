@@ -2,6 +2,7 @@ from pathlib import Path
 from decouple import config
 from django.utils.translation import gettext_lazy as _
 from ..setting.hepler import *
+from ..setting.hepler.allauth_setting import *
 import cloudinary_storage
 import os
 
@@ -15,6 +16,7 @@ INSTALLED_APPS = BASE_APPS + LIBS_APPS + APPS
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 SITE_ID = 1
@@ -89,3 +91,9 @@ CACHES = {
         }
     }
 }
+
+
+SOCIAL_AUTH_GOOGLE_CLIENT_ID = config("SOCIAL_AUTH_GOOGLE_CLIENT_ID")
+SOCIAL_AUTH_GOOGLE_SECRET = config("SOCIAL_AUTH_GOOGLE_SECRET")
+LOGIN_REDIRECT_URL = config("LOGIN_REDIRECT_URL")
+

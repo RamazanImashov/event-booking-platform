@@ -5,6 +5,7 @@ idea
 .env
 celerybeat-schedule
 PyWhatKit_DB.txt
+client_secret_369324143723-6r5n06d5jngkl7m9a5j3e78i0np0ff1g.apps.googleusercontent.com.json
 
 Makefile
 

@@ -7,10 +7,16 @@ django-cors-headers==4.2.0
 django-jazzmin==2.6.0
 psycopg2-binary==2.9.7
 python-decouple
-social-auth-app-django>=5.0.0
+social-auth-app-django==5.4.0
+social-auth-core==4.5.3
 django-allauth
+oauthlib==3.2.2
+firebase-admin==6.4.0
 redis==5.0.0
 drf_spectacular
 django-filter
 django_redis
 redis
+djoser==2.2.2
+django-oauth-toolkit==2.3.0
+google-auth
