@@ -2,6 +2,7 @@ from pathlib import Path
 from decouple import config
 from django.utils.translation import gettext_lazy as _
 from ..setting.hepler import *
+from ..setting.hepler.allauth_setting import *
 import cloudinary_storage
 import os
 
@@ -11,11 +12,11 @@ DEBUG = True
 
 SECRET_KEY = config('SECRET_KEY')
 
-
 INSTALLED_APPS = BASE_APPS + LIBS_APPS + APPS
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 SITE_ID = 1
@@ -67,8 +68,8 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 Redis_Host = config("REDISHOST")
 
-CELERY_BROKER_URL = f'redis://{Redis_Host}:6379'
-CELERY_RESULT_BACKEND = f'redis://{Redis_Host}:6379'
+CELERY_BROKER_URL = f'redis://{Redis_Host}:6379/0'
+CELERY_RESULT_BACKEND = f'redis://{Redis_Host}:6379/0'
 
 JAZZMIN_SETTINGS = JBS
 JAZZMIN_UI_TWEAKS = JAZZMIN_UI_TWEAKS
@@ -90,3 +91,9 @@ CACHES = {
         }
     }
 }
+
+
+SOCIAL_AUTH_GOOGLE_CLIENT_ID = config("SOCIAL_AUTH_GOOGLE_CLIENT_ID")
+SOCIAL_AUTH_GOOGLE_SECRET = config("SOCIAL_AUTH_GOOGLE_SECRET")
+LOGIN_REDIRECT_URL = config("LOGIN_REDIRECT_URL")
+

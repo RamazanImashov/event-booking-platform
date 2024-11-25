@@ -1,6 +1,6 @@
 from django.urls import path, include
-import routers.register_router as v1_reg_r
 
 urlpatterns = [
-    path("v1/", include(v1_reg_r)),
+    path("v1/", include("users.routers.register_router")),
+    path("v1/", include("users.routers.login_router")),
 ]
