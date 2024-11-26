@@ -20,3 +20,5 @@ redis
 djoser==2.2.2
 django-oauth-toolkit==2.3.0
 google-auth
+grpcio
+grpcio-tools

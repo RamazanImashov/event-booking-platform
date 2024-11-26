@@ -17,6 +17,7 @@ class AdminProfile(models.Model):
 class OrganizerProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="organizer_profile")
     organization_name = models.CharField(max_length=255, verbose_name="Название организации")
+    organization_email = models.EmailField(unique=True, blank=False, verbose_name="Email организации")
     is_verified = models.BooleanField(default=False, verbose_name="Организатор верифицирован")
     verified_documents = models.FileField(upload_to="organizer_docs/", blank=True, null=True, verbose_name="Документы для верификации")
 
