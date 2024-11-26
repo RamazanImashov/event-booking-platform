@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+service EventService {
+    rpc GetEventById (EventByIdRequest) returns (EventByIdResponse);
+}
+
+message EventByIdRequest {
+    string event_id = 1; // UUID of the event
+}
+
+message EventByIdResponse {
+    string event_id = 1;
+    string title = 2;
+    string description = 3;
+    string start_time = 4;
+    string end_time = 5;
+    string location = 6;
+    int32 number_of_tickets = 7;
+    bool is_active = 8;
+    string organizer_id = 9;
+    string organizer_name = 10;
+    string organizer_email = 11;
+}

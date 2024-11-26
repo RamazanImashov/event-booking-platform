@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+service UserService {
+    rpc GetOrganizerProfile (OrgProfileRequest) returns (OrgProfileResponse);
+    rpc GetUser (UserRequest) returns (UserResponse);
+    rpc CheckVerifyToken (TokenVerifyRequest) returns (TokenVerifyResponse);
+}
+
+message OrgProfileRequest {
+    string id = 1;
+}
+
+message OrgProfileResponse {
+    string id = 1;
+    string organization_name = 2;
+    string organization_email = 3;
+    bool is_verified = 4;
+    string role = 5;
+}
+
+message UserRequest {
+    string id = 1;
+}
+
+message UserResponse {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string role = 4;
+}
+
+message TokenVerifyRequest {
+    string token = 1;
+}
+
+message TokenVerifyResponse {
+    bool is_valid = 1;
+    string user_id = 2;
+    string role = 3;
+}
