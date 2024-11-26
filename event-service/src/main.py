@@ -1,29 +1,26 @@
 # main.py (FastAPI)
-from fastapi import FastAPI, Request, status, Depends
-from fastapi.encoders import jsonable_encoder
-from fastapi.exceptions import ValidationException
+import logging
+from fastapi import FastAPI, Request, Depends
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, FileResponse
 from .routers.event_routers import router as event_router
 from .routers.tags_routers import router as tags_router
-from pathlib import Path
+from pydantic import ValidationError
+from starlette import status
 import uvicorn
-import os
+from traceback import format_exc
+
+
+logging.basicConfig(level=logging.ERROR)
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.DEBUG)
+
+handler = logging.FileHandler("error.log", mode="a")
+handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+logger.addHandler(handler)
 
 
 app = FastAPI()
-
-
-# @app.exception_handler(ValidationException)
-# async def validation_exception_handler(request: Request, exc:ValidationException):
-#     return JSONResponse(
-#         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-#         content=jsonable_encoder({"detail": exc.errors()})
-#     )
-
-
-# @app.get("/ads/openapi.json", include_in_schema=False)
-# async def get_openapi_json():
-#     return FileResponse(os.path.join(os.getcwd(), "openapi.json"))
 
 
 app.include_router(event_router)

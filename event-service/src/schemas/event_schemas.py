@@ -5,18 +5,22 @@ from datetime import datetime
 
 
 class EventBaseSchema(BaseModel):
-    title: str = Field(..., max_length=255, description="Название события")
+    title: Optional[str] = Field(..., max_length=255, description="Название события")
     description: Optional[str] = Field(None, description="Описание события")
-    start_data: datetime = Field(..., description="Дата и время начала события")
-    end_data: datetime = Field(..., description="Дата и время окончания события")
-    location: str = Field(..., max_length=255, description="Местоположение события")
-    is_active: bool = Field(default=True, description="Активно ли событие")
+    start_data: Optional[datetime] = Field(..., description="Дата и время начала события")
+    end_data: Optional[datetime] = Field(..., description="Дата и время окончания события")
+    location: Optional[str] = Field(..., max_length=255, description="Местоположение события")
+    number_of_tickets: Optional[int] = Field(..., description="Количество билетов")
+    is_active: Optional[bool] = Field(default=True, description="Активно ли событие")
+    organizer_name: Optional[str] = Field(..., description="Наименование Организации")
+    organizer_email: Optional[str] = Field(..., description="Email почта организации")
 
     model_config = ConfigDict(from_attributes=True)
 
 
 class EventCreateSchema(EventBaseSchema):
     tags: list[UUID] = Field(default=[], description="Список идентификаторов тегов")
+    organizer_id: Optional[str] = Field(..., description="Идентификатор организации")
 
     class Config:
         orm_mode = True
@@ -29,6 +33,7 @@ class EventUpdateSchema(BaseModel):
     end_date: Optional[datetime] = Field(None, description="Дата и время окончания события")
     location: Optional[str] = Field(None, max_length=255, description="Местоположение события")
     is_active: Optional[bool] = Field(None, description="Активно ли событие")
+    number_of_tickets: Optional[int] = Field(..., description="Количество билетов")
     tags: Optional[List[UUID]] = Field(None, description="Список идентификаторов тегов")
 
     model_config = ConfigDict(from_attributes=True)
@@ -49,6 +54,7 @@ class EventUpdateSchemaP(BaseModel):
     end_date: Optional[datetime] = Field(None, description="Дата и время окончания события")
     location: Optional[str] = Field(None, max_length=255, description="Местоположение события")
     is_active: Optional[bool] = Field(None, description="Активно ли событие")
+    number_of_tickets: Optional[int] = Field(..., description="Количество билетов")
     tags: Optional[List[UUID]] = Field(None, description="Список идентификаторов тегов")
 
     class Config:

@@ -72,6 +72,9 @@ async def get_id_event_crud(
         "end_data": event.end_data,
         "location": event.location,
         "is_active": event.is_active,
+        "number_of_tickets": event.number_of_tickets,
+        "organizer_name": event.organizer_name,
+        "organizer_email": event.organizer_email,
         "tags": event_tags
     }
 
@@ -173,7 +176,6 @@ async def partial_update_event_crud(
     await session.commit()
     await session.refresh(event)
 
-    # Преобразуем теги в список строк для ответа
     return EventResponseSchema(
         id=event.id,
         title=event.title,
@@ -182,6 +184,28 @@ async def partial_update_event_crud(
         end_data=event.end_data,
         location=event.location,
         is_active=event.is_active,
+        number_of_tickets=event.number_of_tickets,
+        organizer_name=event.organizer_name,
+        organizer_email=event.organizer_email,
         tags=[tag.name for tag in event.tags]
     )
 
+
+async def delete_event_crud(
+        event_id: UUID,
+        session: AsyncSession,
+):
+    stmt = (
+        select(EventModel)
+        .options(joinedload(EventModel.tags))
+        .where(EventModel.id == event_id)
+    )
+    result = await session.execute(stmt)
+    event = result.scalars().first()
+
+    if not event:
+        return f"Event with id {event_id} not found"
+
+    await session.delete(event)
+    await session.commit()
+    return f"Event {event_id} deleted"

@@ -18,7 +18,8 @@ class TagCreateSchema(TagBaseSchema):
 class TagUpdateSchema(BaseModel):
     name: Optional[str] = Field(None, max_length=50, description="Новое название тега")
 
-    model_config = ConfigDict(from_attributes=True)
+    class Config:
+        orm_mode = True
 
 
 class TagResponseSchema(TagBaseSchema):
