@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pymongo
+motor
+aiogram
+pydantic
+cloudinary
+jinja2
+requests
+python-multipart
