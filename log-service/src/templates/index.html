@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Логи</title>
+</head>
+<body>
+    <h1>Сервисы</h1>
+    <ul>
+        {% for service in services %}
+        <li><a href="/service/{{ service['_id'] }}">{{ service['name'] }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

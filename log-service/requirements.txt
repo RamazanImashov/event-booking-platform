@@ -8,3 +8,5 @@ cloudinary
 jinja2
 requests
 python-multipart
+python-decouple==3.8
+pymongo

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Logs</title>
+</head>
+<body>
+    <h1>Logs for Service: {{ service['name'] }}</h1>
+    <ul>
+        {% for log in service['logs'] %}
+            <li>{{ log.time }} [{{ log.log_level }}]: {{ log.log_message }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
