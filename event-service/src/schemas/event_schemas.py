@@ -18,9 +18,15 @@ class EventBaseSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class EventCreateSchema(EventBaseSchema):
+class EventCreateSchema(BaseModel):
+    title: Optional[str] = Field(..., max_length=255, description="Название события")
+    description: Optional[str] = Field(None, description="Описание события")
+    start_data: Optional[datetime] = Field(..., description="Дата и время начала события")
+    end_data: Optional[datetime] = Field(..., description="Дата и время окончания события")
+    location: Optional[str] = Field(..., max_length=255, description="Местоположение события")
+    number_of_tickets: Optional[int] = Field(..., description="Количество билетов")
+    is_active: Optional[bool] = Field(default=True, description="Активно ли событие")
     tags: list[UUID] = Field(default=[], description="Список идентификаторов тегов")
-    organizer_id: Optional[str] = Field(..., description="Идентификатор организации")
 
     class Config:
         orm_mode = True

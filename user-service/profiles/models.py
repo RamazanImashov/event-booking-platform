@@ -11,7 +11,7 @@ class AdminProfile(models.Model):
     permissions = models.TextField(blank=True, verbose_name="Права доступа")
 
     def __str__(self):
-        return f"{self.user.custom_id} - {self.user.username} - {self.user.email}"
+        return f"{self.user.id} - {self.user.username} - {self.user.email}"
 
 
 class OrganizerProfile(models.Model):
@@ -22,7 +22,7 @@ class OrganizerProfile(models.Model):
     verified_documents = models.FileField(upload_to="organizer_docs/", blank=True, null=True, verbose_name="Документы для верификации")
 
     def __str__(self):
-        return f"{self.user.custom_id} - {self.user.username} - {self.organization_name}"
+        return f"{self.user.id} - {self.user.username} - {self.organization_name}"
 
 
 class AttendeeProfile(models.Model):
@@ -37,7 +37,7 @@ class AttendeeProfile(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
 
     def __str__(self):
-        return f"{self.user.custom_id} - {self.user.username} - {self.user.email}"
+        return f"{self.user.id} - {self.user.username} - {self.user.email}"
 
 
 class GuestProfile(models.Model):
@@ -46,7 +46,7 @@ class GuestProfile(models.Model):
     is_registered = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.user.custom_id} - {self.user.username} - {self.user.email}"
+        return f"{self.user.id} - {self.user.username} - {self.user.email}"
 
 
 @receiver(post_save, sender=User)

@@ -24,6 +24,7 @@ router = APIRouter(
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_event(
+        request: Request,
         session: Annotated[
             AsyncSession,
             Depends(db_helper.session_getter),
@@ -31,6 +32,7 @@ async def create_event(
         event_create: EventCreateSchema
 ):
     event = await create_event_crud(
+        request=request,
         session=session,
         event_create_schema=event_create
     )

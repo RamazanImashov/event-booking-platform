@@ -32,7 +32,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "back-static")
 MEDIA_URL = '/back-media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "back-media")
 
-CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8003"]
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8001", "http://127.0.0.1:8003"]
 
 # CORS_ALLOWED_ORIGINS = []
 

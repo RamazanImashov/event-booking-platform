@@ -23,6 +23,8 @@ from src.models.tag_models import TagModel, EventTagAssociation
 
 from datetime import datetime
 
+from ..grpc_client.grpc_client import get_user, verify_token, get_organizer_profile
+
 
 async def get_all_events_crud(
         session: AsyncSession
@@ -86,9 +88,39 @@ def make_naive(dt: datetime) -> datetime:
 
 
 async def create_event_crud(
+        request: Request,
         session: AsyncSession,
         event_create_schema: EventCreateSchema
 ) -> EventModel:
+
+    authorization = request.headers.get("Authorization")
+    if not authorization:
+        raise HTTPException(status_code=400, detail="Authorization header missing")
+
+    try:
+        token = authorization.split(" ")[1]
+        print("==========================================================")
+        print(token)
+        print("==========================================================")
+    except IndexError:
+        raise HTTPException(status_code=400, detail="Invalid Authorization header format")
+
+    user_data = verify_token(token=token)
+    if not user_data or not user_data.is_valid:
+        raise HTTPException(status_code=403, detail="User not authorized or Token invalid")
+
+    user_id = user_data.user_id
+    user = get_user(user_id)
+    if user.role != "organizer":
+        raise Exception("User not organizer")
+
+    user_id = user.id
+
+    data_organizer_profile = get_organizer_profile(user_id=user_id)
+
+    organizer_id = data_organizer_profile.id
+    organizer_name = data_organizer_profile.organization_name
+    organizer_email = data_organizer_profile.organization_email
 
     event_data = event_create_schema.model_dump(exclude={"tags"})
 
@@ -100,7 +132,12 @@ async def create_event_crud(
         stmt = select(TagModel).where(TagModel.id.in_(event_create_schema.tags))
         tags = (await session.scalars(stmt)).all()
 
-    event = EventModel(**event_data)
+    event = EventModel(
+        **event_data,
+        organizer_id=organizer_id,
+        organizer_name=organizer_name,
+        organizer_email=organizer_email
+    )
     event.tags.extend(tags)
     session.add(event)
     await session.commit()

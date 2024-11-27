@@ -1,11 +1,14 @@
+from pathlib import Path
 import os
+import sys
 import grpc
 import django
 from concurrent import futures
 import user_pb2
 import user_pb2_grpc
 
-# Настройка Django
+BASE_DIR = Path(__file__).resolve().parent
+sys.path.append(str(BASE_DIR.parent))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.setting.settings')
 django.setup()
 
@@ -23,8 +26,10 @@ def authenticate_token(token: str):
     try:
         validated_token = jwt_authenticator.get_validated_token(token)
         user = jwt_authenticator.get_user(validated_token)
+        print(f"Authenticated user: {user}, ID: {user.id}")
         return user  # Authenticated user object
     except AuthenticationFailed:
+        print("Token authentication failed")
         return None
 
 
@@ -45,12 +50,16 @@ class UserService(user_pb2_grpc.UserServiceServicer):
 
     def CheckVerifyToken(self, request, context):
         user = authenticate_token(request.token)
+        print("==========================================================")
+        print(f"User object: {user}")
         if user:
+            print(f"User ID: {user.id}, Role: {user.role}")
             return user_pb2.TokenVerifyResponse(
                 is_valid=True,
                 user_id=str(user.id),
                 role=user.role
             )
+        print("Invalid token")
         context.set_code(grpc.StatusCode.UNAUTHENTICATED)
         context.set_details('Invalid token')
         return user_pb2.TokenVerifyResponse(is_valid=False)
